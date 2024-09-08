@@ -1,6 +1,7 @@
 from typing import Any, Optional, Tuple
 from Node import Node
 
+
 class AVLTree:
     
     def __init__(self, root: Optional["Node"] = None) -> None:
@@ -8,61 +9,6 @@ class AVLTree:
             self.root = None
         else:
             self.root = Node(root)
-    def preorder(self) -> None:
-        self.__preorder_r(self.root)
-        print()
-
-    def __preorder_r(self, node: Optional["Node"]) -> None:
-        if node is not None:
-            print(node.data, end = ' ')
-            self.__preorder_r(node.left)
-            self.__preorder_r(node.right)
-
-    def preorder_nr(self) -> None:
-        s = []
-        p = self.root
-        while p is not None or len(s) > 0:
-            if p is not None:
-                print(p.data, end = ' ')
-                s.append(p)
-                p = p.left
-            else:
-                p = s.pop()
-                p = p.right
-        print()
-
-    def inorder(self) -> None:
-        self.__inorder_r(self.root)
-        print()
-
-    def __inorder_r(self, node: Optional["Node"]) -> None:
-        if node is not None:
-            self.__inorder_r(node.left)
-            print(node.data, end = ' ')
-            self.__inorder_r(node.right)
-
-    def inorder_nr(self) -> None:
-        s = []
-        p = self.root
-        while p is not None or len(s) > 0:
-            if p is not None:
-                s.append(p)
-                p = p.left
-            else:
-                p = s.pop()
-                print(p.data, end = ' ')
-                p = p.right
-        print()
-
-    def postorder(self) -> None:
-        self.__postorder_r(self.root)
-        print()
-
-    def __postorder_r(self, node: Optional["Node"]) -> None:
-        if node is not None:
-            self.__postorder_r(node.left)
-            self.__postorder_r(node.right)
-            print(node.data, end = ' ')
 
     def levels_nr(self) -> None:
         q = []
