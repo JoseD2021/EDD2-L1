@@ -198,17 +198,24 @@ class AVLTree:
 
     def rebalance(self, node: "Node") -> None:
         ad = node.data
-        if node.fEquilibrio == 2 and node.right.fEquilibrio >= 0:
-            node = self.simpleLeftRotation(node)
-        elif node.fEquilibrio == -2 and node.left.fEquilibrio <= -1:
-            node = self.simpleRightRotation(node)
-        elif node.fEquilibrio == 2 and node.right.fEquilibrio == -1:
+        
+        if node.fEquilibrio == 2 and node.right.fEquilibrio == -1:
             node = self.doubleRightLeft(node)
         elif node.fEquilibrio == -2 and node.left.fEquilibrio == 1:
             node = self.doubleLeftRight(node)
-        
+        elif node.fEquilibrio == 2 and node.right.fEquilibrio >= 0:
+            node = self.simpleLeftRotation(node)
+        elif node.fEquilibrio == -2 and node.left.fEquilibrio <= -1:
+            node = self.simpleRightRotation(node)
+
         if ad == self.root.data:
             self.root = node
+        else:
+            pad = self.search(ad)[1]
+            if pad.left.data == ad:
+                pad.left = node
+            else: 
+                pad.right = node
     
     def simpleLeftRotation(self, node: "Node") -> "Node":
         aux = node.right
@@ -223,9 +230,9 @@ class AVLTree:
         return aux
 
     def doubleRightLeft(self, node: "Node") -> "Node":
-        node = self.simpleRightRotation(node.right)
+        node.right = self.simpleRightRotation(node.right)
         return self.simpleLeftRotation(node)
 
     def doubleLeftRight(self, node: "Node") -> "Node":
-        node = self.simpleLeftRotation(node.left)
+        node.left = self.simpleLeftRotation(node.left)
         return self.simpleRightRotation(node)
