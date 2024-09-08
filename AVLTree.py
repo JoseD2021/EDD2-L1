@@ -1,6 +1,6 @@
 from typing import Any, Optional, Tuple
 from Node import Node
-
+from Movie import Movie
 
 class AVLTree:
     
@@ -115,6 +115,7 @@ class AVLTree:
                     else:
                         pad_sus.left = son_sus
                     del sus
+            self.actualizarEquilibrio(pad)
             return True
         return False
 
@@ -151,7 +152,7 @@ class AVLTree:
             node = self.doubleLeftRight(node)
         elif node.fEquilibrio == 2 and node.right.fEquilibrio >= 0:
             node = self.simpleLeftRotation(node)
-        elif node.fEquilibrio == -2 and node.left.fEquilibrio <= -1:
+        elif node.fEquilibrio == -2 and node.left.fEquilibrio <= 0:
             node = self.simpleRightRotation(node)
 
         if ad == self.root.data:
