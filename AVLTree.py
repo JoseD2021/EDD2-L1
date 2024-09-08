@@ -1,14 +1,12 @@
 from typing import Any, Optional, Tuple
 from Node import Node
+import movie as mv
 
 
 class AVLTree:
     
     def __init__(self, root: Optional["Node"] = None) -> None:
-        if root is None:
-            self.root = None
-        else:
-            self.root = Node(root)
+        self.root = mv.create_node(root)
 
     def levels_nr(self) -> None:
         q = []
@@ -50,27 +48,30 @@ class AVLTree:
     def search(self, data: Any) -> Tuple[Optional["Node"], Optional["Node"]]:
         p, pad = self.root, None
         while p is not None:
-            if data == p.data:
+            if data == p.data.title:
                 return p, pad
             else:
                 pad = p
-                if data < p.data:
+                if data < p.data.title:
                     p = p.left
                 else:
                     p = p.right
         return p, pad
 
     def insert(self, data: Any) -> bool:
-        to_insert = Node(data)
+        to_insert = mv.create_node(data)
         if self.root is None:
+            print(f"Inserción: {data.title} (Año: {data.year}) - como raíz")
             self.root = to_insert
             return True
         else:
-            p, pad = self.search(data)
+            p, pad = self.search(data.title)
             if p is not None:
+                print(f"La película {data.title} ya existe.")
                 return False
             else:
-                if data < pad.data:
+                print(f"Inserción: {data.title} (Año: {data.year})")
+                if data < pad.data.title:
                     pad.left = to_insert
                 else:
                     pad.right = to_insert
@@ -182,3 +183,21 @@ class AVLTree:
     def doubleLeftRight(self, node: "Node") -> "Node":
         node.left = self.simpleLeftRotation(node.left)
         return self.simpleRightRotation(node)
+    
+    def search_year(self, year: int):
+        resultados = []
+
+        def buscar_por_año(nodo):
+            if nodo is None:
+                return
+
+            if nodo.data.year == year:
+                resultados.append(nodo.data)
+                print(f"Encontrada: {nodo.data.title} del año {nodo.data.year}")  # Impresión de debugging
+
+            buscar_por_año(nodo.left)
+            buscar_por_año(nodo.right)
+
+        buscar_por_año(self.root)
+        print("a")
+        return resultados
