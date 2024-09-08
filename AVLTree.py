@@ -2,10 +2,12 @@ from typing import Any, Optional, Tuple
 from Node import Node
 
 class AVLTree:
-
+    
     def __init__(self, root: Optional["Node"] = None) -> None:
-        self.root = Node(root)
-
+        if root is None:
+            self.root = None
+        else:
+            self.root = Node(root)
     def preorder(self) -> None:
         self.__preorder_r(self.root)
         print()
