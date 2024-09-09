@@ -2,6 +2,7 @@ from typing import Any, Optional, Tuple
 from Node import Node
 from movie import Movie
 from graphviz import Digraph
+import pandas as pd
 
 class AVLTree:
     
@@ -165,6 +166,10 @@ class AVLTree:
     def delete(self, data: Any, mode: bool = True) -> bool:
         p, pad = self.search(data)
         if p is not None:
+            if pad is None and p == self.root and p.left is None and p.right is None:
+                self.root = None
+                return True
+
             if p.left is None and p.right is None:
                 if p == pad.left:
                     pad.left = None
@@ -221,24 +226,52 @@ class AVLTree:
 
 
     def actualizarEquilibrio(self, node: "Node") -> None:
-        while (node != None):
+        #node2 = node
+        if node is not None:
+            if node.left is not None:
+                self.actualizarEquilibrio(node.left)
+            if node.right is not None:
+                self.actualizarEquilibrio(node.right)
+
+            if node.left is None and node.right is None:
+                self.actualizarEquilibrio2(node)
+
+        # node.fEquilibrio = self.calcEquilibrio(node)
+        # if node.left is not None:
+            # node.left
+# 
+######################
+        # while node is not None:
+            # node.fEquilibrio = self.calcEquilibrio(node)
+            # if node.fEquilibrio < -1 or node.fEquilibrio > 1:
+                # self.rebalance(node)
+                # 
+            # node = self.search(node.data.title)[1]
+        
+        
+    
+    def actualizarEquilibrio2(self, node: "Node"):
+        while node is not None:
             node.fEquilibrio = self.calcEquilibrio(node)
             if node.fEquilibrio < -1 or node.fEquilibrio > 1:
                 self.rebalance(node)
                 
             node = self.search(node.data.title)[1]
 
+        
+
+
     def rebalance(self, node: "Node") -> None:
         ad = node.data.title
-        
-        if node.fEquilibrio == 2 and node.right.fEquilibrio == -1:
-            node = self.doubleRightLeft(node)
-        elif node.fEquilibrio == -2 and node.left.fEquilibrio == 1:
-            node = self.doubleLeftRight(node)
-        elif node.fEquilibrio == 2 and node.right.fEquilibrio >= 0:
+         
+        if node.fEquilibrio == 2 and node.right.fEquilibrio >= 0:
             node = self.simpleLeftRotation(node)
         elif node.fEquilibrio == -2 and node.left.fEquilibrio <= 0:
             node = self.simpleRightRotation(node)
+        elif node.fEquilibrio == 2 and node.right.fEquilibrio == -1:
+            node = self.doubleRightLeft(node)
+        elif node.fEquilibrio == -2 and node.left.fEquilibrio == 1:
+            node = self.doubleLeftRight(node)
 
         if ad == self.root.data.title:
             self.root = node
@@ -248,6 +281,8 @@ class AVLTree:
                 pad.left = node
             else: 
                 pad.right = node
+
+        
     
     def simpleLeftRotation(self, node: "Node") -> "Node":
         aux = node.right
@@ -327,11 +362,14 @@ class AVLTree:
             return 0
         return self.calcEquilibrio(nodo) # Calcula el equilibrio enviando el nodo
 
-Tree = AVLTree("Mission: Impossible II")
-Tree.insert("Gladiator")
-Tree.insert("Nancy Drew")
-Tree.insert("Helter Skelter")
-Tree.insert("The Hobbit: The Desolation of Smaug")
-Tree.insert("The Real Exorcist")
-Tree.insert("Cast Away")
-Tree.visualize('AVLTree')  # Guarda la visualización como mi_arbol_avl.png
+Tree = AVLTree()
+
+ds = pd.read_csv("dataset_movies.csv")
+
+for i in range(0,4953):
+    Tree.insert(ds.iloc[i]["Title"])
+
+for i in range(0,4951):
+    Tree.delete(ds.iloc[i]["Title"])
+
+Tree.visualize('AVLTree')
