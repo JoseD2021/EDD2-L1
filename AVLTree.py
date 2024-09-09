@@ -16,6 +16,25 @@ class AVLTree:
         else:
             self.root = None
 
+    
+    def find_grandparent(self, node: "Node") -> Optional["Node"]:
+        _, parent = self.search(node.data.title)  # Busca el padre del nodo
+        if parent is None:
+            return None  # No tiene padre, por lo tanto no tiene abuelo
+        _, grandparent = self.search(parent.data.title)  # Busca el padre del padre (abuelo)
+        return grandparent
+
+   
+    def find_uncle(self, node: "Node") -> Optional["Node"]:
+        grandparent = self.find_grandparent(node)
+        if grandparent is None:
+            return None  # No tiene abuelo, por lo tanto no tiene tío
+        _, parent = self.search(node.data.title)  # Busca el padre del nodo
+        if grandparent.left == parent:
+            return grandparent.right  # El tío es el hijo derecho del abuelo
+        else:
+            return grandparent.left  # El tío es el hijo izquierdo del abuelo        
+
     def levels(self):
         self.levelsR([self.root])
 
