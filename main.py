@@ -7,7 +7,6 @@ Tree = AVLTree()
 
 node = Movie()
 node.createMovie("Mission: Impossible II")
-
 print(node.__repr__())
 node1 = Movie()
 

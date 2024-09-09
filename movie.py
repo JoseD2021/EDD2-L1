@@ -4,8 +4,8 @@ import pandas as pd
 df = pd.read_csv("dataset_movies.csv")
 
 class Movie:
-    def __init__(self, title: Optional[str] = None, worldwide_earnings: Optional[int] = None, domestic_earnings: Optional[int] = None,
-        domestic_percent: Optional[float] = None, foreign_earnings: Optional[int] = None, foreign_percent: Optional[float] = None, year: Optional[int] = None) -> None:
+    def __init__(self, title = None, worldwide_earnings = None, domestic_earnings = None,
+        domestic_percent = None, foreign_earnings = None, foreign_percent = None, year = None) -> None:
         self.title = title
         self.worldwide_earnings = worldwide_earnings
         self.domestic_earnings = domestic_earnings
