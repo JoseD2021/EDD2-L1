@@ -4,13 +4,7 @@ from Node import Node
 import pandas as pd
 from movie import Movie
 
-Tree = AVLTree("Mission: Impossible II")
-Tree.insert("Gladiator")
-Tree.insert("Nancy Drew")
-Tree.insert("Helter Skelter")
-Tree.insert("The Hobbit: The Desolation of Smaug")
-Tree.insert("The Real Exorcist")
-Tree.insert("Cast Away")
+Tree = AVLTree()
 
 def operaciones_adicionales(pelicula):
     while True:
@@ -73,13 +67,18 @@ def menu():
         
         if opcion == '1':
             titulo = input("Ingresa el título de la película: ")
-            if Tree.insert(titulo):
+
+            ist = Tree.insert(titulo)
+            if ist == 1:
                 print(f"Película '{titulo}' insertada correctamente.")
-            else:
+            elif ist == 0:
                 print(f"La película '{titulo}' ya existe en el árbol.")
+            else:
+                print(f"La película '{titulo}' no fue encontrada.")
                 
         elif opcion == '2':
             titulo = input("Ingresa el título de la película que deseas eliminar: ")
+
             if Tree.delete(titulo):
                 print(f"Película '{titulo}' eliminada correctamente.")
             else:
@@ -122,5 +121,4 @@ def menu():
         else:
             print("Opción no válida. Por favor, selecciona una opción del 1 al 6.")
 
-# Llamar al menú
-menu()
+menu() # Llamar al menú

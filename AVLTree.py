@@ -137,29 +137,28 @@ class AVLTree:
                         p = p.right
         return p
     
-    def insert(self, data: Any) -> bool:
+    def insert(self, data: Any) -> int: # -1 no se encontro la pelicula. 0 ya fue encontrada. 1 exito
         mv = Movie().createMovie(data)
         if mv != None:
             to_insert = Node(mv)
         else:
-            print(f"No se ha encontrado la pelicula {data}")
-            return False
+            return -1
 
         if self.root is None:
             self.root = to_insert
-            return True
+            return 1
         else:
             p, pad = self.search(data)
             if p is not None:
-                print(f"La película {data.title} ya existe.")
-                return False
+                return 0 
             else:
                 if data < pad.data.title:
                     pad.left = to_insert
                 else:
                     pad.right = to_insert
                 self.actualizarEquilibrio(pad)
-                return True
+                return 1
+            
     def deleteBy(self, data: Any, m = 0):
         self.delete(self.searchBy (data, m).data.title)
 
@@ -226,40 +225,24 @@ class AVLTree:
 
 
     def actualizarEquilibrio(self, node: "Node") -> None:
-        #node2 = node
         if node is not None:
+            # llega a cada nodo hoja
             if node.left is not None:
                 self.actualizarEquilibrio(node.left)
             if node.right is not None:
                 self.actualizarEquilibrio(node.right)
-
+            # si es nodo hoja comprueba su factor de equilibrio
             if node.left is None and node.right is None:
                 self.actualizarEquilibrio2(node)
-
-        # node.fEquilibrio = self.calcEquilibrio(node)
-        # if node.left is not None:
-            # node.left
-# 
-######################
-        # while node is not None:
-            # node.fEquilibrio = self.calcEquilibrio(node)
-            # if node.fEquilibrio < -1 or node.fEquilibrio > 1:
-                # self.rebalance(node)
-                # 
-            # node = self.search(node.data.title)[1]
-        
-        
     
-    def actualizarEquilibrio2(self, node: "Node"):
+    def actualizarEquilibrio2(self, node: "Node"): 
+        #comprueba todos los factores de equilibrio desde el nodo hasta la raiz
         while node is not None:
             node.fEquilibrio = self.calcEquilibrio(node)
             if node.fEquilibrio < -1 or node.fEquilibrio > 1:
                 self.rebalance(node)
                 
             node = self.search(node.data.title)[1]
-
-        
-
 
     def rebalance(self, node: "Node") -> None:
         ad = node.data.title
@@ -362,14 +345,14 @@ class AVLTree:
             return 0
         return self.calcEquilibrio(nodo) # Calcula el equilibrio enviando el nodo
 
-Tree = AVLTree()
-
-ds = pd.read_csv("dataset_movies.csv")
-
-for i in range(0,4953):
-    Tree.insert(ds.iloc[i]["Title"])
-
-for i in range(0,4951):
-    Tree.delete(ds.iloc[i]["Title"])
-
-Tree.visualize('AVLTree')
+#Tree = AVLTree()
+#
+#ds = pd.read_csv("dataset_movies.csv")
+#
+#for i in range(0,43):
+#    Tree.insert(ds.iloc[i]["Title"])
+#
+##for i in range(0,4951):
+##    Tree.delete(ds.iloc[i]["Title"])
+#
+#Tree.visualize('AVLTree')
