@@ -217,7 +217,7 @@ class AVLTree:
             if nodo is None:
                 return
 
-            if nodo.data.year == year:
+            if nodo.data.year == year and nodo.data.domestic_percent < nodo.data.foreign_percent and nodo.data.foreign_earnings >= 10000000:
                 resultados.append(nodo.data)
                 print(f"Encontrada: {nodo.data.title} del año {nodo.data.year}")  # Impresión de debugging
 

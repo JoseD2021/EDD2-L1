@@ -19,11 +19,11 @@ class Movie:
         if not movie_row.empty:
             movie_data = movie_row.iloc[0]
             self.title = movie_data['Title']
-            self.worldwide_earnings = movie_data['Worldwide Earnings']
-            self.domestic_earnings = movie_data['Domestic Earnings']
-            self.domestic_percent = movie_data['Domestic Percent Earnings']
-            self.foreign_earnings = movie_data['Foreign Earnings']
-            self.foreign_percent = movie_data['Foreign Percent Earnings']
+            self.worldwide_earnings = int(movie_data['Worldwide Earnings'])
+            self.domestic_earnings = int(movie_data['Domestic Earnings'])
+            self.domestic_percent = int(movie_data['Domestic Percent Earnings'])
+            self.foreign_earnings = int(movie_data['Foreign Earnings'])
+            self.foreign_percent = int(movie_data['Foreign Percent Earnings'])
             self.year = int(movie_data['Year'])
             return self
         
