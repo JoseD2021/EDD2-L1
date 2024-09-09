@@ -319,6 +319,13 @@ class AVLTree:
             dot.node((self.root.data.title).replace(":",""))
             add_edges(dot, self.root)
         dot.render(filename, format='png', cleanup=True)  # Guarda el archivo en formato PNG
+        
+    def calcEquilibrio_titulo(self, title: str) -> int:
+        nodo, _ = self.search(title)  # Busca el nodo utilizando el título
+        if nodo is None:
+            print(f"No se ha encontrado la película con el título {title}.")
+            return 0
+        return self.calcEquilibrio(nodo) # Calcula el equilibrio enviando el nodo
 
 Tree = AVLTree("Mission: Impossible II")
 Tree.insert("Gladiator")
