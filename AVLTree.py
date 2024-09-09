@@ -1,7 +1,7 @@
 from typing import Any, Optional, Tuple
 from Node import Node
 import movie as mv
-
+from graphviz import Digraph
 
 class AVLTree:
     
@@ -295,3 +295,26 @@ class AVLTree:
 
         buscar_por_año(self.root)
         return resultados
+
+    def visualize(self, filename='avl_tree'):
+        """Genera una visualización del árbol AVL y la guarda en un archivo."""
+        def add_edges(dot, node):
+            if node is not None:
+                if node.left is not None:
+                    dot.node(node.left.data.title)
+                    dot.edge(node.data.title, node.left.data.title)
+                    add_edges(dot, node.left)
+                if node.right is not None:
+                    dot.node(node.right.data.title)
+                    dot.edge(node.data.title, node.right.data.title)
+                    add_edges(dot, node.right)
+
+        dot = Digraph()
+        if self.root is not None:
+            dot.node(self.root.data.title)
+            add_edges(dot, self.root)
+        dot.render(filename, format='png', cleanup=True)  # Guarda el archivo en formato PNG
+
+    tree = AVLTree.generate_sample_tree()
+    tree.visualize('mi_arbol_avl')  # Guarda la visualización como mi_arbol_avl.png
+    
