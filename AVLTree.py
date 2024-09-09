@@ -1,13 +1,18 @@
 from typing import Any, Optional, Tuple
 from Node import Node
-import movie as mv
+from movie import Movie
 from graphviz import Digraph
 
 class AVLTree:
     
     def __init__(self, root: Optional["Node"] = None) -> None:
         if root:
-            self.root = mv.create_node(root)
+            mv = Movie().createMovie(root)
+            if mv != None:
+                self.root = Node(mv)
+            else:
+                print(f"No se ha encontrado la pelicula {root}")
+                self.root = None
         else:
             self.root = None
 
@@ -32,22 +37,6 @@ class AVLTree:
         if node is None:
             return 0
         return 1 + max(self.__height_r(node.left), self.__height_r(node.right))
-
-    @staticmethod
-    def generate_sample_tree() -> "AVLTree":
-        T = AVLTree(Node('A'))
-        T.root.left = Node('B')
-        T.root.right = Node('C')
-        T.root.left.left = Node('D')
-        T.root.left.right = Node('E')
-        T.root.right.right = Node('F')
-        T.root.right.left = Node('G')
-        T.root.left.left.left = Node('H')
-        T.root.left.left.right = Node('I')
-        T.root.right.left.left = Node('J')
-        T.root.right.left.right = Node('K')
-
-        return T
 
     def search(self, data: Any) -> Tuple[Optional["Node"], Optional["Node"]]:
         p, pad = self.root, None
@@ -122,48 +111,25 @@ class AVLTree:
                         p = p.left
                     else:
                         p = p.right
-
-            metrics = ["title","worldwide_earnings","domestic_earnings","domestic_percent","foreign_earnings","foreign_percent","year"]
-            # if value == p.data[metrics[m]]:
-            
         return p
-
-    def inorder_nr(self) -> None:
-        s = []
-        p = self.root
-        while p is not None or len(s) > 0:
-            if p is not None:
-                s.append(p)
-                p = p.left
-            else:
-                p = s.pop()
-                print(p.data, end = ' ')
-                p = p.right
-        print()
-
-    def postorder(self) -> None:
-        self.__postorder_r(self.root)
-        print()
-
-    def __postorder_r(self, node: Optional["Node"]) -> None:
-        if node is not None:
-            self.__postorder_r(node.left)
-            self.__postorder_r(node.right)
-            print(node.data, end = ' ')
-
+    
     def insert(self, data: Any) -> bool:
-        to_insert = mv.create_node(data)
+        mv = Movie().createMovie(data)
+        if mv != None:
+            to_insert = Node(mv)
+        else:
+            print(f"No se ha encontrado la pelicula {data}")
+            return False
+
         if self.root is None:
-            #print(f"Inserción: {data.title} (Año: {data.year}) - como raíz")
             self.root = to_insert
             return True
         else:
             p, pad = self.search(data)
             if p is not None:
-                #print(f"La película {data.title} ya existe.")
+                print(f"La película {data.title} ya existe.")
                 return False
             else:
-                #print(f"Inserción: {data.title} (Año: {data.year})")
                 if data < pad.data.title:
                     pad.left = to_insert
                 else:
@@ -310,3 +276,32 @@ class AVLTree:
             nivel += 1
 
         return -1
+
+
+    def visualize(self, filename='avl_tree'):
+        #Genera una visualización del árbol AVL y la guarda en un archivo.
+        def add_edges(dot, node):
+            if node is not None:
+                if node.left is not None:
+                    dot.node((node.left.data.title).replace(":","")) # elimina los ":" para evitar conflictos con la sintaxis de graphviz
+                    dot.edge((node.data.title).replace(":",""), (node.left.data.title).replace(":",""))
+                    add_edges(dot, node.left)
+                if node.right is not None:
+                    dot.node((node.right.data.title).replace(":",""))
+                    dot.edge((node.data.title).replace(":",""), (node.right.data.title).replace(":",""))
+                    add_edges(dot, node.right)
+
+        dot = Digraph()
+        if self.root is not None:
+            dot.node((self.root.data.title).replace(":",""))
+            add_edges(dot, self.root)
+        dot.render(filename, format='png', cleanup=True)  # Guarda el archivo en formato PNG
+
+Tree = AVLTree("Mission: Impossible II")
+Tree.insert("Gladiator")
+Tree.insert("Nancy Drew")
+Tree.insert("Helter Skelter")
+Tree.insert("The Hobbit: The Desolation of Smaug")
+Tree.insert("The Real Exorcist")
+Tree.insert("Cast Away")
+Tree.visualize('AVLTree')  # Guarda la visualización como mi_arbol_avl.png

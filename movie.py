@@ -32,11 +32,3 @@ class Movie:
 
     def __repr__(self):  #Esta es la forma en la que muestro el nodo
         return f"Película: ({self.title}, {self.year}, Worldwide Earnings: {self.worldwide_earnings})"
-
-@staticmethod
-def create_node(title: str) -> Optional[Node]:
-    movie_instance = Movie()  # Crea una instancia de Movie
-    movie = movie_instance.createMovie(title)  # Llama al método de instancia
-    if movie:
-        return Node(movie)
-    return None
