@@ -60,6 +60,7 @@ class AVLTree:
                     p = p.left
                 else:
                     p = p.right
+            
         return p, pad
     
     def searchBy(self, value: Any, m = 0) -> "Node" :
@@ -288,10 +289,24 @@ class AVLTree:
 
             if nodo.data.year == year and nodo.data.domestic_percent < nodo.data.foreign_percent and nodo.data.foreign_earnings >= 10000000:
                 resultados.append(nodo.data)
-                print(f"Encontrada: {nodo.data.title} del año {nodo.data.year}")  # Impresión de debugging
 
             buscar_por_año(nodo.left)
             buscar_por_año(nodo.right)
 
         buscar_por_año(self.root)
         return resultados
+    
+    def nivel(self, data: Any) -> int:
+        p = self.root
+        nivel = 0
+
+        while p is not None:
+            if data == p.data.title:
+                return nivel
+            elif data < p.data.title:
+                p = p.left
+            else:
+                p = p.right
+            nivel += 1
+
+        return -1
