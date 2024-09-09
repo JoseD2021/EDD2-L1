@@ -11,18 +11,19 @@ class AVLTree:
         else:
             self.root = None
 
-    def levels_nr(self) -> None:
-        q = []
-        p = self.root
-        q.append(p)
-        while len(q) > 0:
-            p = q.pop(0)
-            print(p.data, end = ' ')
+    def levels(self):
+        self.levelsR([self.root])
+
+    def levelsR(self,list):
+        if len(list) > 0:
+            p = list.pop(0)
+            print(p.data.title, end = ', ')
             if p.left is not None:
-                q.append(p.left)
+                list.append(p.left)
             if p.right is not None:
-                q.append(p.right)
-        print()
+                list.append(p.right)
+            self.levelsR(list)
+        
 
     def height(self) -> int:
         return self.__height_r(self.root)
@@ -60,6 +61,21 @@ class AVLTree:
                 else:
                     p = p.right
         return p, pad
+    
+    def searchBy(self, value: Any, m = 0) -> "Node" :
+        p = self.root
+        while p is not None:
+            metrics = ["title","worldwide_earnings","domestic_earnings","domestic_percent","foreign_earnings","foreign_percent","year"]
+            # if value == p.data[metrics[m]]:
+            if value == p.data["year"]:
+                return p
+            else:
+                if value < p.data["year"]:
+                    p = p.left
+                else:
+                    p = p.right
+        return p
+
     def inorder_nr(self) -> None:
         s = []
         p = self.root

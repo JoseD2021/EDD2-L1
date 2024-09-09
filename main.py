@@ -4,7 +4,7 @@ from Node import Node
 import pandas as pd
 from movie import Movie
 
-Tree = AVLTree("Mission: Impossible II")
+Tree = AVLTree()#"Mission: Impossible II")
 
 #Tree.insert()
 Tree.insert("Gladiator")
@@ -15,8 +15,10 @@ Tree.insert("The Real Exorcist")
 Tree.insert("Cast Away")
 # Tree.insert("")
 # Tree.insert("")
+# Tree.inorder_nr()
+Tree.levels()
 
-Tree.levels_nr()
+print(Tree.searchBy(2020,6).data.title)
 
 #print("root",Tree.root.data.title)
 
