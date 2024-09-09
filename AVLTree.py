@@ -6,7 +6,10 @@ import movie as mv
 class AVLTree:
     
     def __init__(self, root: Optional["Node"] = None) -> None:
-        self.root = mv.create_node(root)
+        if root:
+            self.root = mv.create_node(root)
+        else:
+            self.root = None
 
     def levels_nr(self) -> None:
         q = []
@@ -57,20 +60,42 @@ class AVLTree:
                 else:
                     p = p.right
         return p, pad
+    def inorder_nr(self) -> None:
+        s = []
+        p = self.root
+        while p is not None or len(s) > 0:
+            if p is not None:
+                s.append(p)
+                p = p.left
+            else:
+                p = s.pop()
+                print(p.data, end = ' ')
+                p = p.right
+        print()
+
+    def postorder(self) -> None:
+        self.__postorder_r(self.root)
+        print()
+
+    def __postorder_r(self, node: Optional["Node"]) -> None:
+        if node is not None:
+            self.__postorder_r(node.left)
+            self.__postorder_r(node.right)
+            print(node.data, end = ' ')
 
     def insert(self, data: Any) -> bool:
         to_insert = mv.create_node(data)
         if self.root is None:
-            print(f"Inserción: {data.title} (Año: {data.year}) - como raíz")
+            #print(f"Inserción: {data.title} (Año: {data.year}) - como raíz")
             self.root = to_insert
             return True
         else:
-            p, pad = self.search(data.title)
+            p, pad = self.search(data)
             if p is not None:
-                print(f"La película {data.title} ya existe.")
+                #print(f"La película {data.title} ya existe.")
                 return False
             else:
-                print(f"Inserción: {data.title} (Año: {data.year})")
+                #print(f"Inserción: {data.title} (Año: {data.year})")
                 if data < pad.data.title:
                     pad.left = to_insert
                 else:
@@ -116,6 +141,7 @@ class AVLTree:
                     else:
                         pad_sus.left = son_sus
                     del sus
+            self.actualizarEquilibrio(pad)
             return True
         return False
 
@@ -141,10 +167,10 @@ class AVLTree:
             if node.fEquilibrio < -1 or node.fEquilibrio > 1:
                 self.rebalance(node)
                 
-            node = self.search(node.data)[1]
+            node = self.search(node.data.title)[1]
 
     def rebalance(self, node: "Node") -> None:
-        ad = node.data
+        ad = node.data.title
         
         if node.fEquilibrio == 2 and node.right.fEquilibrio == -1:
             node = self.doubleRightLeft(node)
@@ -152,14 +178,14 @@ class AVLTree:
             node = self.doubleLeftRight(node)
         elif node.fEquilibrio == 2 and node.right.fEquilibrio >= 0:
             node = self.simpleLeftRotation(node)
-        elif node.fEquilibrio == -2 and node.left.fEquilibrio <= -1:
+        elif node.fEquilibrio == -2 and node.left.fEquilibrio <= 0:
             node = self.simpleRightRotation(node)
 
-        if ad == self.root.data:
+        if ad == self.root.data.title:
             self.root = node
         else:
             pad = self.search(ad)[1]
-            if pad.left.data == ad:
+            if pad.left.data.title == ad:
                 pad.left = node
             else: 
                 pad.right = node
@@ -199,5 +225,4 @@ class AVLTree:
             buscar_por_año(nodo.right)
 
         buscar_por_año(self.root)
-        print("a")
         return resultados

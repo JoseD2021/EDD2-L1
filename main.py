@@ -2,22 +2,24 @@ from typing import Any, Optional, Tuple
 from AVLTree import AVLTree
 from Node import Node
 import pandas as pd
-from movie import Movie #, create_movie, create_node
-Tree = AVLTree()
+from movie import Movie
 
-node = Movie()
-node.createMovie("Mission: Impossible II")
-print(node.__repr__())
-node1 = Movie()
+Tree = AVLTree("Mission: Impossible II")
 
-node1.createMovie("Gladiator")
+#Tree.insert()
+Tree.insert("Gladiator")
+Tree.insert("Nancy Drew")
+Tree.insert("Helter Skelter")
+Tree.insert("The Hobbit: The Desolation of Smaug")
+Tree.insert("The Real Exorcist")
 
-print(node1.__repr__())
-print(f"Año de 'Mission: Impossible II': {node.year}")
-print(f"Año de 'Gladiator': {node1.year}")
-Tree.insert(node)
-Tree.insert(node1)
+# Tree.insert("")
+# Tree.insert("")
+# Tree.insert("")
 
+Tree.levels_nr()
+
+#print("root",Tree.root.data.title)
 
 year = int(input("Inserta el año de la película que deseas buscar: "))
 found = Tree.search_year(year)
