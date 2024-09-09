@@ -65,15 +65,66 @@ class AVLTree:
     def searchBy(self, value: Any, m = 0) -> "Node" :
         p = self.root
         while p is not None:
+            if (m == 0):
+                if value == p.data.title:
+                    return p
+                else:
+                    if value < p.data.title:
+                        p = p.left
+                    else:
+                        p = p.right
+            elif (m == 1):
+                if value == p.data.worldwide_earnings:
+                    return p
+                else:
+                    if value < p.data.worldwide_earnings:
+                        p = p.left
+                    else:
+                        p = p.right
+            elif (m == 2):
+                if value == p.data.domestic_earnings:
+                    return p
+                else:
+                    if value < p.data.domestic_earnings:
+                        p = p.left
+                    else:
+                        p = p.right
+            elif (m == 3):
+                if value == p.data.domestic_percent:
+                    return p
+                else:
+                    if value < p.data.domestic_percent:
+                        p = p.left
+                    else:
+                        p = p.right
+            elif (m == 4):
+                if value == p.data.foreign_earnings:
+                    return p
+                else:
+                    if value < p.data.foreign_earnings:
+                        p = p.left
+                    else:
+                        p = p.right
+            elif (m == 5):
+                if value == p.data.foreign_percent:
+                    return p
+                else:
+                    if value < p.data.foreign_percent:
+                        p = p.left
+                    else:
+                        p = p.right
+            elif (m == 6):
+                if value == p.data.year:
+                    return p
+                else:
+                    if value < p.data.year:
+                        p = p.left
+                    else:
+                        p = p.right
+
             metrics = ["title","worldwide_earnings","domestic_earnings","domestic_percent","foreign_earnings","foreign_percent","year"]
             # if value == p.data[metrics[m]]:
-            if value == p.data["year"]:
-                return p
-            else:
-                if value < p.data["year"]:
-                    p = p.left
-                else:
-                    p = p.right
+            
         return p
 
     def inorder_nr(self) -> None:
@@ -118,6 +169,8 @@ class AVLTree:
                     pad.right = to_insert
                 self.actualizarEquilibrio(pad)
                 return True
+    def deleteBy(self, data: Any, m = 0):
+        self.delete(self.searchBy (data, m).data.title)
 
     def delete(self, data: Any, mode: bool = True) -> bool:
         p, pad = self.search(data)
