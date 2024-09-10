@@ -85,7 +85,17 @@ def menu():
                 print(f"La película '{titulo}' no se encontró en el árbol.")
                 
         elif opcion == '3':
-            metrica = int(input("Selecciona la métrica para buscar: 0. Título, 1. Ingresos Mundiales, 2. Ingresos Nacionales, etc: "))
+            az = input("Selecciona la métrica para buscar: 0. Título, 1. Ingresos Mundiales, 2. Ingresos Nacionales, 3. Porcentaje domestico\n4. Ingresos a nivel internacional, 5. Porcentaje Internacional, 6. Año: ")
+            metrica = 0
+            try:
+                metrica = int(az)
+            except:
+                print("Metrica invalida")
+                continue
+
+            if metrica < 0 or metrica > 6:
+                print("Metrica invalida")
+                continue
             valor = input("Ingresa el valor de búsqueda: ")
             nodo = Tree.searchBy(valor, metrica)
             if nodo:
@@ -95,18 +105,37 @@ def menu():
                 print("Película no encontrada.")
         
         elif opcion == '4':
-            year = int(input("Ingresa el año de la película que deseas buscar: "))
-            found = Tree.search_year(year)
+            x = input("Ingresa el año de la película que deseas buscar: ")
+            year = 2015
+            if (x.strip() != ''):
+                year = int(x)
+            else:
+                print("valor por defecto Año = 2015")
+            y = input("Ingresa el valor de los ingresos de la película que deseas buscar: ")
+
+            ingresos = 10000000
+            if (y.strip() != ''):    
+                ingresos = int(y)
+            else:
+                print("valor por defecto Ingresos = 10000000")
+
+            found = Tree.search_year(year, ingresos)
             if found:
                 print(f"Películas del año {year}:")
                 for index, pelicula in enumerate(found, start=1):
                     print(f"{index}. {pelicula.title}. Nivel {Tree.nivel(pelicula.title)}")
                 
-                pelicula_seleccionada = int(input("Selecciona el número de la película para realizar operaciones adicionales: ")) - 1
-                if 0 <= pelicula_seleccionada < len(found):
-                    operaciones_adicionales(found[pelicula_seleccionada])
+                z = input("Selecciona el número de la película para realizar operaciones adicionales (-1 para salir): ")
+                if z.strip() != '':
+                    pelicula_seleccionada = int(z) - 1
                 else:
-                    print("Selección no válida.")
+                    pelicula_seleccionada = -2
+                if pelicula_seleccionada > -1:
+                    if 0 <= pelicula_seleccionada < len(found):
+                        operaciones_adicionales(found[pelicula_seleccionada])
+                    else:
+                        print("Selección no válida.")
+                print("Volviendo al menu principal")
             else:
                 print(f"No se encontraron películas del año {year} que cumplan con los criterios.")
         

@@ -77,65 +77,36 @@ class AVLTree:
         return p, pad
     
     def searchBy(self, value: Any, m = 0) -> "Node" :
+        q = []
         p = self.root
-        while p is not None:
+        q.append(p)
+        while len(q) > 0:
+            p = q.pop(0)
             if (m == 0):
                 if value == p.data.title:
                     return p
-                else:
-                    if value < p.data.title:
-                        p = p.left
-                    else:
-                        p = p.right
             elif (m == 1):
-                if value == p.data.worldwide_earnings:
+                if int(value) == int(p.data.worldwide_earnings):
                     return p
-                else:
-                    if value < p.data.worldwide_earnings:
-                        p = p.left
-                    else:
-                        p = p.right
             elif (m == 2):
-                if value == p.data.domestic_earnings:
+                if int(value) == int(p.data.domestic_earnings):
                     return p
-                else:
-                    if value < p.data.domestic_earnings:
-                        p = p.left
-                    else:
-                        p = p.right
             elif (m == 3):
-                if value == p.data.domestic_percent:
+                if float(value) == float(p.data.domestic_percent):
                     return p
-                else:
-                    if value < p.data.domestic_percent:
-                        p = p.left
-                    else:
-                        p = p.right
             elif (m == 4):
-                if value == p.data.foreign_earnings:
+                if float(value) == float(p.data.foreign_earnings):
                     return p
-                else:
-                    if value < p.data.foreign_earnings:
-                        p = p.left
-                    else:
-                        p = p.right
             elif (m == 5):
-                if value == p.data.foreign_percent:
+                if float(value) == float(p.data.foreign_percent):
                     return p
-                else:
-                    if value < p.data.foreign_percent:
-                        p = p.left
-                    else:
-                        p = p.right
             elif (m == 6):
-                if value == p.data.year:
+                if int(value) == int(p.data.year):
                     return p
-                else:
-                    if value < p.data.year:
-                        p = p.left
-                    else:
-                        p = p.right
-        return p
+            if p.left is not None:
+                q.append(p.left)
+            if p.right is not None:
+                q.append(p.right)
     
     def insert(self, data: Any) -> int: # -1 no se encontro la pelicula. 0 ya fue encontrada. 1 exito
         mv = Movie().createMovie(data)
@@ -287,14 +258,14 @@ class AVLTree:
         node.left = self.simpleLeftRotation(node.left)
         return self.simpleRightRotation(node)
     
-    def search_year(self, year: int):
+    def search_year(self, year: int, ingresos = 10000000):
         resultados = []
 
         def buscar_por_año(nodo):
             if nodo is None:
                 return
 
-            if nodo.data.year == year and nodo.data.domestic_percent < nodo.data.foreign_percent and nodo.data.foreign_earnings >= 10000000:
+            if nodo.data.year == year and nodo.data.domestic_percent < nodo.data.foreign_percent and nodo.data.foreign_earnings >= ingresos:
                 resultados.append(nodo.data)
 
             buscar_por_año(nodo.left)
