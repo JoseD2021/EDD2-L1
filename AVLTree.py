@@ -5,7 +5,7 @@ from graphviz import Digraph
 import pandas as pd
 
 class AVLTree:
-    
+    xyz = 0
     def __init__(self, root: Optional["Node"] = None) -> None:
         if root:
             mv = Movie().createMovie(root)
@@ -195,6 +195,8 @@ class AVLTree:
         return p, pad, p.right
 
     def calcEquilibrio(self, node: "Node") -> int:
+        self.xyz+=1
+        print("cantidad de repeticiones",self.xyz)
         return self.__height_r(node.right) - self.__height_r(node.left)
 
 
@@ -215,7 +217,7 @@ class AVLTree:
         #comprueba todos los factores de equilibrio desde el nodo hasta la raiz
         while node is not None:
             node.fEquilibrio = self.calcEquilibrio(node)
-            if self.calcEquilibrio(node) < -1 or self.calcEquilibrio(node) > 1:
+            if node.fEquilibrio < -1 or node.fEquilibrio > 1:
                 self.rebalance(node)
 
             node = self.search(node.data.title)[1]
@@ -229,15 +231,15 @@ class AVLTree:
         if node.right is not None:
             node.right.fEquilibrio = self.calcEquilibrio(node.right)
 
-        while abs(self.calcEquilibrio(node)) > 1:
-            if node.fEquilibrio == 2 and node.right.fEquilibrio == -1:
-                node = self.doubleRightLeft(node)
-            elif node.fEquilibrio == -2 and node.left.fEquilibrio == 1:
-                node = self.doubleLeftRight(node)
-            elif node.fEquilibrio == 2 and node.right.fEquilibrio >= 0:
-                node = self.simpleLeftRotation(node)
-            elif node.fEquilibrio == -2 and node.left.fEquilibrio <= 0:
-                node = self.simpleRightRotation(node)
+        #while abs(self.calcEquilibrio(node)) > 1:
+        if node.fEquilibrio == 2 and node.right.fEquilibrio == -1:
+            node = self.doubleRightLeft(node)
+        elif node.fEquilibrio == -2 and node.left.fEquilibrio == 1:
+            node = self.doubleLeftRight(node)
+        elif node.fEquilibrio == 2 and node.right.fEquilibrio >= 0:
+            node = self.simpleLeftRotation(node)
+        elif node.fEquilibrio == -2 and node.left.fEquilibrio <= 0:
+            node = self.simpleRightRotation(node)
         
 
         if ad == self.root.data.title:

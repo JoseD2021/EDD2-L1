@@ -6,6 +6,35 @@ from movie import Movie
 
 Tree = AVLTree()
 
+# #
+#ds = pd.read_csv("dataset_movies.csv")
+# #
+#for i in range(0,4000): #[
+#     "The Princess and the Frog",
+# "Tiger Zinda Hai",
+# "Stormy Night",
+# "Amour",
+# "A Beautiful Wife",
+# "The Boss Baby",
+# "Chasing the Dragon",
+# "The Thing",
+# "Mr. Deeds",
+# "Orphan",
+# "Two Is a Family",
+# "Re/Member",
+# "Divergent",
+# "The Village",
+# "50/50",
+# "Agora",
+# "School for Scoundrels",
+# "Partner",
+# "Lost Souls",
+#"Aladdin",
+#]:
+#    Tree.insert(ds.iloc[i].Title)
+
+Tree.visualize('AVLTree')
+
 def operaciones_adicionales(pelicula):
     while True:
         print("\nOperaciones adicionales:")
