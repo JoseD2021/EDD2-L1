@@ -175,7 +175,10 @@ class AVLTree:
                     else:
                         pad_sus.left = son_sus
                     del sus
-            self.actualizarEquilibrio(pad)
+            if pad is not None:
+                self.actualizarEquilibrio(pad)
+            else:
+                self.actualizarEquilibrio(self.root)
             return True
         return False
 
@@ -226,14 +229,16 @@ class AVLTree:
         if node.right is not None:
             node.right.fEquilibrio = self.calcEquilibrio(node.right)
 
-        if node.fEquilibrio == 2 and node.right.fEquilibrio >= 0:
-            node = self.simpleLeftRotation(node)
-        elif node.fEquilibrio == -2 and node.left.fEquilibrio <= 0:
-            node = self.simpleRightRotation(node)
-        elif node.fEquilibrio == 2 and node.right.fEquilibrio == -1:
-            node = self.doubleRightLeft(node)
-        elif node.fEquilibrio == -2 and node.left.fEquilibrio == 1:
-            node = self.doubleLeftRight(node)
+        while abs(self.calcEquilibrio(node)) > 1:
+            if node.fEquilibrio == 2 and node.right.fEquilibrio == -1:
+                node = self.doubleRightLeft(node)
+            elif node.fEquilibrio == -2 and node.left.fEquilibrio == 1:
+                node = self.doubleLeftRight(node)
+            elif node.fEquilibrio == 2 and node.right.fEquilibrio >= 0:
+                node = self.simpleLeftRotation(node)
+            elif node.fEquilibrio == -2 and node.left.fEquilibrio <= 0:
+                node = self.simpleRightRotation(node)
+        
 
         if ad == self.root.data.title:
             self.root = node
@@ -325,16 +330,37 @@ class AVLTree:
         return self.calcEquilibrio(nodo) # Calcula el equilibrio enviando el nodo
 
 # Tree = AVLTree()
-# #
+# # #
 # ds = pd.read_csv("dataset_movies.csv")
-# #
-# for i in range(0,120):
-#     Tree.insert(ds.iloc[i]["Title"])
-# #
-# for i in range(0,41):
-#     Tree.delete(ds.iloc[i]["Title"])
-# #
-# # print("Delete: =============0000")
-# Tree.delete("Gladiator")
+# # #
+# for i in [
+#     "The Princess and the Frog",
+# "Tiger Zinda Hai",
+# "Stormy Night",
+# "Amour",
+# "A Beautiful Wife",
+# "The Boss Baby",
+# "Chasing the Dragon",
+# "The Thing",
+# "Mr. Deeds",
+# "Orphan",
+# "Two Is a Family",
+# "Re/Member",
+# "Divergent",
+# "The Village",
+# "50/50",
+# "Agora",
+# "School for Scoundrels",
+# "Partner",
+# "Lost Souls",
+# "Aladdin",
+# ]:
+#     Tree.insert(i)
+#  #
+# #for i in [0,0]:
+# #    Tree.delete(ds.iloc[i].title)
+# # #
+# # # print("Delete: =============0000")
+# #Tree.delete("Gladiator")
 # Tree.visualize('AVLTree')
-# print("Raiz:",Tree.calcEquilibrio(Tree.root))
+# #print("Raiz:",Tree.calcEquilibrio(Tree.root))
