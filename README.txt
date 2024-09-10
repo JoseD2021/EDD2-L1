@@ -1,7 +1,3 @@
-AVL
-    Arreglar rotaciones
-    DIbujar arbol
-
 Puntos de LAboratorio
     1.Insertar un nodo.
     2.Eliminar un nodoutilizando la métrica dada.
