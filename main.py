@@ -51,6 +51,7 @@ def operaciones_adicionales(pelicula):
             
             if Tree.delete(pelicula.title):
                 print(f"Película '{pelicula.title}' eliminada correctamente.")
+                Tree.visualize('AVLTree')
             else:
                 print(f"La película '{pelicula.title}' no se encontró en el árbol.")
         elif opcion == 'g':
@@ -77,6 +78,7 @@ def menu():
             ist = Tree.insert(titulo)
             if ist == 1:
                 print(f"Película '{titulo}' insertada correctamente.")
+                Tree.visualize('AVLTree')
             elif ist == 0:
                 print(f"La película '{titulo}' ya existe en el árbol.")
             else:
@@ -87,6 +89,7 @@ def menu():
 
             if Tree.delete(titulo):
                 print(f"Película '{titulo}' eliminada correctamente.")
+                Tree.visualize('AVLTree')
             else:
                 print(f"La película '{titulo}' no se encontró en el árbol.")
                 
