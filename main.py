@@ -14,7 +14,8 @@ def operaciones_adicionales(pelicula):
         print("c. Encontrar el padre del nodo.")
         print("d. Encontrar el abuelo del nodo.")
         print("e. Encontrar el tío del nodo.")
-        print("f. Volver al menú principal.")
+        print("f. eliminar el nodo")
+        print("g. Volver al menú principal.")
 
         opcion = input("Selecciona una opción: ")
         
@@ -46,8 +47,13 @@ def operaciones_adicionales(pelicula):
                 print(f"El tío de '{pelicula.title}' es: {tio.data.title}")
             else:
                 print(f"'{pelicula.title}' no tiene tío.")
-        
         elif opcion == 'f':
+            
+            if Tree.delete(pelicula.title):
+                print(f"Película '{pelicula.title}' eliminada correctamente.")
+            else:
+                print(f"La película '{pelicula.title}' no se encontró en el árbol.")
+        elif opcion == 'g':
             break
         
         else:
